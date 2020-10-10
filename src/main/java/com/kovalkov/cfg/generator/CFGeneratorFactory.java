@@ -3,6 +3,7 @@ package com.kovalkov.cfg.generator;
 import com.kovalkov.cfg.generator.AST.ANTLER.generated.Java8Lexer;
 import com.kovalkov.cfg.generator.AST.ANTLER.generated.Java8Parser;
 import com.kovalkov.cfg.generator.CFG.CFGGenerator;
+import lombok.Setter;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -16,6 +17,11 @@ public class CFGeneratorFactory {
 
     public static CFGeneratorFactory getInstance() {
         return new CFGeneratorFactory();
+    }
+
+    public CFGeneratorFactory setFile(final File file) {
+        this.file = file;
+        return this;
     }
 
     public CFGeneratorFactory setSource(final String path) throws FileNotFoundException {
