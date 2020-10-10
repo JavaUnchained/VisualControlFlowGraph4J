@@ -11,7 +11,8 @@ public class GenerateCodeFlowGraph {
 
     public static void main(String...args){
         try {
-            for (File f : ExampleFiles.getExampl(FOLDER)) CFGeneratorFactory.getInstance().setFile(f).setASTInstance().parse();
+            final var cfgf = CFGeneratorFactory.getInstance();
+            for (File f : ExampleFiles.getExampl(FOLDER)) cfgf.setFile(f).setASTInstance().parse();
         } catch (IOException e) {e.printStackTrace();}
     }
 }
