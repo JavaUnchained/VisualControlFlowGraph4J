@@ -10,15 +10,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class ControlFlowGraphFactory {
+public class CFGeneratorFactory {
     private File file;
     private Java8Parser.CompilationUnitContext ast;
 
-    public static ControlFlowGraphFactory getInstance() {
-        return new ControlFlowGraphFactory();
+    public static CFGeneratorFactory getInstance() {
+        return new CFGeneratorFactory();
     }
 
-    public ControlFlowGraphFactory setSource(final String path) throws FileNotFoundException {
+    public CFGeneratorFactory setSource(final String path) throws FileNotFoundException {
         if (file.exists()) {
             file = new File(path);
         } else throw new FileNotFoundException();
@@ -30,7 +30,7 @@ public class ControlFlowGraphFactory {
         cdf.toScheme();
     }
 
-    public ControlFlowGraphFactory setASTInstance() throws IOException {
+    public CFGeneratorFactory setASTInstance() throws IOException {
         final var lexer = new Java8Lexer(new ANTLRFileStream(file.getCanonicalPath()));
         final var tokens = new CommonTokenStream(lexer);
         final var java8Parser = new Java8Parser(tokens);
