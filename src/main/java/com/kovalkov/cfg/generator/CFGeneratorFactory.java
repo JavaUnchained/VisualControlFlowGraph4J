@@ -1,9 +1,9 @@
 package com.kovalkov.cfg.generator;
 
-import com.kovalkov.cfg.generator.AST.ANTLER.generated.Java8Lexer;
-import com.kovalkov.cfg.generator.AST.ANTLER.generated.Java8Parser;
+import com.kovalkov.cfg.generator.AST.ANTLER.Java8Lexer;
 import com.kovalkov.cfg.generator.CFG.CFGGenerator;
-import lombok.Setter;
+import com.kovalkov.cfg.generator.AST.ANTLER.Java8Parser;
+import com.kovalkov.cfg.generator.CFG.Formats;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -13,6 +13,7 @@ import java.io.IOException;
 
 public class CFGeneratorFactory {
     private File file;
+    private Formats formats;
     private Java8Parser.CompilationUnitContext ast;
 
     public static CFGeneratorFactory getInstance() {
@@ -24,6 +25,11 @@ public class CFGeneratorFactory {
         return this;
     }
 
+    public CFGeneratorFactory setFormats(Formats formats) {
+        this.formats = formats;
+        return this;
+    }
+
     public CFGeneratorFactory setSource(final String path) throws FileNotFoundException {
         if (file.exists()) {
             file = new File(path);
@@ -31,9 +37,9 @@ public class CFGeneratorFactory {
         return this;
     }
 
-    public void parse() {
-        final  CFGGenerator cdf = new CFGGenerator(ast);
-        cdf.toScheme();
+    public void parse() throws FileNotFoundException {
+        final  CFGGenerator cdf = new CFGGenerator(ast, file.getName(), formats);
+        cdf.generateGraph();
     }
 
     public CFGeneratorFactory setASTInstance() throws IOException {
