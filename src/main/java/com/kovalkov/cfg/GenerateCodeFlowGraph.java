@@ -11,7 +11,7 @@ import java.io.IOException;
 public class GenerateCodeFlowGraph {
     public static void main(String...args){
         try {
-            final var cfgf = CFGeneratorFactory.getInstance().setFormats(Formats.PNG);
+            final var cfgf = CFGeneratorFactory.getInstance().setFormats(Formats.SVG);
             for (File f : ExampleFiles.getExampl(Consts.FOLDER)) cfgf.setFile(f).setASTInstance().parse();
         } catch (IOException e) {e.printStackTrace();}
     }

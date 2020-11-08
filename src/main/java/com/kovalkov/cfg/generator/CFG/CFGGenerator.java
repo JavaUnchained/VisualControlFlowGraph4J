@@ -142,11 +142,12 @@ public class CFGGenerator {
         for (var n : block.getDescendants()) {
             if (n.destination instanceof Token) {
                 if (((Token) n.destination).getText().equals(Consts.FOR)){ loopParsingToNodes(block, graph, parent); break;}
+                if (((Token) n.destination).getText().equals(Consts.WHILE)){ whileParsingNodes(block, graph, parent); break;}
                 if (((Token) n.destination).getText().equals(Consts.IF)) { conditionParsingToNodes(block, graph, parent); break; }
                 if (((Token) n.destination).getText().equals(Consts.RETURN)) {
                     final var name = getTokenDeclaredText(block, graph);
                     block.returnStatement = true;
-                    block.node = mutNode(getNodePointCount()).add(Label.of(name.toString())).add(Shape.ELLIPSE);
+                    block.node = mutNode(getNodePointCount()).add(Label.of(name)).add(Shape.ELLIPSE);
                     graph.add(parent.node.addLink(block.node));
                     break;
                 }
@@ -189,6 +190,26 @@ public class CFGGenerator {
         }
     }
 
+    private void whileParsingNodes(CFGGenerator block, MutableGraph g, CFGGenerator parent) {
+        MutableNode expression = null;
+        CFGGenerator body = null;
+        for (var n : block.getDescendants()) {
+            if (n.destination instanceof String && n.destination.equals(Consts.FOR_EXPRESS)) {
+                expression = mutNode(getNodePointCount()).add(Label.of(getTokenDeclaredText(n, g)));
+                expression.add(Shape.DIAMOND).add(Color.ORANGE);
+            }
+            if (n.destination instanceof String && n.destination.equals(Consts.STATEMENT)) {
+                body = n.getDescendants().stream().filter(e -> e.destination instanceof String && e.destination.equals(Consts.BLOCK_S)).findFirst().get();
+            }
+        }
+        g.add(parent.node.addLink(expression.linkTo()));
+        g.add(expression.addLink(body.node));
+        block.node = body.node;
+        final var lastNode = parsBlockStatements(body, g, block, false);
+        block.node = expression;
+        g.add(lastNode.node.addLink(expression.linkTo().with(Color.ORANGE, Label.of("Next iteration"))));
+    }
+
     private void loopParsingToNodes(CFGGenerator block, MutableGraph g, CFGGenerator parent) {
         MutableNode init = null;
         MutableNode expression = null;
@@ -214,10 +235,10 @@ public class CFGGenerator {
         g.add(init.addLink(expression));
         g.add(expression.addLink(update));
         block.node = update;
-        final var exit = mutNode(getNodePointCount()).add(Label.of("")).add(Shape.POINT);
+//        final var exit = mutNode(getNodePointCount()).add(Label.of("")).add(Shape.POINT).add(Style.DASHED);
         final var lastNode = parsBlockStatements(body, g, block, false);
-        expression.addLink(expression.linkTo(exit).with(Style.DASHED));
-        block.node = exit;
+//        expression.addLink(expression.linkTo(exit).with(Style.DASHED));
+        block.node = expression;
         g.add(parent.node.addLink(init.linkTo()));
         g.add(lastNode.node.addLink(expression.linkTo().with(Color.ORANGE, Label.of("Next iteration"))));
     }

@@ -20,4 +20,7 @@ public class Consts {
     public static final String IF_EXPRESS = "expression";
     public static final String FOR_INIT = "forInit";
     public static final String NOT_ONE_BRACJ_IF = "statementNoShortIf";
+    public static final String WHILE = "while";
+    public static final String BREAKS = "break";
+    public static final String CONTINUES = "continue";
 }
