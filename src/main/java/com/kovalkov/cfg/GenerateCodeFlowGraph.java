@@ -1,7 +1,6 @@
 package com.kovalkov.cfg;
 
 import com.github.javaparser.StaticJavaParser;
-import com.kovalkov.cfg.generator.CFGv1.CFGeneratorFactory;
 import com.kovalkov.cfg.generator.Formats;
 import com.kovalkov.cfg.generator.CFGv2.GraphVisualizer;
 import com.kovalkov.cfg.generator.CFGv2.ParserVisitor;
@@ -38,10 +37,4 @@ public final class GenerateCodeFlowGraph {
         return String.format("%s%s", PATH_TO_GRAPH, filename.replace(EXAMPLE_TYPE, ""));
     }
 
-    private static void buildCFGv1() {
-        try {
-            final var cfg = CFGeneratorFactory.getInstance().setFormats(Formats.SVG);
-            for (final File file : ExampleFiles.getExampl(PATH_TO_EXAMPLES)) cfg.setFile(file).setASTInstance().parse();
-        } catch (final IOException e) {e.printStackTrace();}
-    }
 }
