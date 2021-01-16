@@ -1,4 +1,4 @@
-package com.kovalkov.cfg.generator.CFG;
+package com.kovalkov.cfg.generator;
 
 import guru.nidi.graphviz.engine.Format;
 
