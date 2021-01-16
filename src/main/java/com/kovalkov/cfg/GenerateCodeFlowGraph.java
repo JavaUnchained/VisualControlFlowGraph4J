@@ -1,7 +1,6 @@
 package com.kovalkov.cfg;
 
 import com.github.javaparser.StaticJavaParser;
-import com.kovalkov.cfg.generator.Formats;
 import com.kovalkov.cfg.generator.CFGv2.GraphVisualizer;
 import com.kovalkov.cfg.generator.CFGv2.ParserVisitor;
 import com.kovalkov.cfg.generator.ExampleFiles;
